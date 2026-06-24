@@ -1,0 +1,138 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: oklch(0.97 0.008 240);
+  --color-foreground: oklch(0.15 0.02 240);
+  --color-card: oklch(1 0 0);
+  --color-card-foreground: oklch(0.15 0.02 240);
+  --color-popover: oklch(1 0 0);
+  --color-popover-foreground: oklch(0.15 0.02 240);
+  --color-primary: oklch(0.42 0.18 255);
+  --color-primary-foreground: oklch(1 0 0);
+  --color-secondary: oklch(0.96 0.01 240);
+  --color-secondary-foreground: oklch(0.3 0.05 240);
+  --color-muted: oklch(0.95 0.008 240);
+  --color-muted-foreground: oklch(0.55 0.02 240);
+  --color-accent: oklch(0.55 0.18 160);
+  --color-accent-foreground: oklch(1 0 0);
+  --color-destructive: oklch(0.55 0.22 25);
+  --color-destructive-foreground: oklch(1 0 0);
+  --color-border: oklch(0.9 0.01 240);
+  --color-input: oklch(0.9 0.01 240);
+  --color-ring: oklch(0.42 0.18 255);
+  --color-chart-1: oklch(0.42 0.18 255);
+  --color-chart-2: oklch(0.55 0.18 160);
+  --color-chart-3: oklch(0.65 0.15 200);
+  --color-chart-4: oklch(0.7 0.12 220);
+  --color-chart-5: oklch(0.75 0.1 240);
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+/* Shadow brand colors - Pink and Purple */
+:root {
+  --shadow-blue: #7C3AED;
+  --shadow-green: #EC4899;
+  --shadow-gradient: linear-gradient(135deg, #7C3AED 0%, #EC4899 100%);
+  --shadow-gradient-btn: linear-gradient(135deg, #A855F7 0%, #EC4899 100%);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* Gradient button utility */
+.btn-gradient {
+  background: var(--shadow-gradient-btn);
+  color: white;
+  border: none;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+}
+.btn-gradient:hover {
+  opacity: 0.92;
+}
+.btn-gradient:active {
+  transform: scale(0.97);
+}
+
+/* Logo gradient text */
+.text-gradient {
+  background: var(--shadow-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Card with subtle shadow */
+.shadow-card {
+  box-shadow: 0 2px 16px 0 rgba(30, 58, 138, 0.07), 0 1px 4px 0 rgba(16, 185, 129, 0.04);
+}
+
+/* Duration selector card */
+.duration-card {
+  @apply rounded-2xl border-2 border-border bg-white p-4 cursor-pointer transition-all duration-150;
+}
+.duration-card:hover {
+  @apply border-blue-400;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+.duration-card.selected {
+  @apply border-blue-600;
+  background: rgba(37, 99, 235, 0.04);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+/* Tab underline style */
+.tab-underline {
+  @apply relative pb-3 text-sm font-medium text-muted-foreground cursor-pointer transition-colors;
+}
+.tab-underline.active {
+  @apply text-blue-700;
+}
+.tab-underline.active::after {
+  content: "";
+  @apply absolute bottom-0 left-0 right-0 h-0.5 rounded-full;
+  background: var(--shadow-gradient-btn);
+}
+
+/* Quantity control */
+.qty-btn {
+  @apply w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center text-xl font-semibold text-gray-700 cursor-pointer transition-all duration-100 select-none;
+}
+.qty-btn:hover {
+  @apply bg-gray-200;
+}
+.qty-btn:active {
+  transform: scale(0.95);
+}
+
+/* Status badge */
+.badge-available {
+  @apply text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200;
+}
+.badge-used {
+  @apply text-xs font-semibold px-2 py-0.5 rounded-full bg-red-50 text-red-500 border border-red-200;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+
+.container {
+  @apply mx-auto px-4;
+  max-width: 480px;
+}

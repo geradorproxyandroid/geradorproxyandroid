@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1780462196183,
+      "tag": "0000_slow_skaar",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1780462320493,
+      "tag": "0001_clumsy_silvermane",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1781241488384,
+      "tag": "0002_complete_thena",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1781251304666,
+      "tag": "0003_talented_jackpot",
+      "breakpoints": true
+    }
+  ]
+}
