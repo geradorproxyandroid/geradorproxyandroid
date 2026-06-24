@@ -4,14 +4,13 @@ export function Logo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
 
   return (
     <div className="flex items-center gap-3">
-      {/* S logo SVG inline - azul para verde */}
       <svg
         width={iconSize}
         height={iconSize}
         viewBox="0 0 100 100"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        style={{ flexShrink: 0, borderRadius: "22%" }}
+        style={{ flexShrink: 0 }}
       >
         <defs>
           <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -19,16 +18,39 @@ export function Logo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
             <stop offset="100%" stopColor="#10B981" />
           </linearGradient>
         </defs>
-        {/* Background */}
+        {/* Background rounded square */}
         <rect width="100" height="100" rx="22" fill="url(#bgGrad)" />
-        {/* Letter S - geometric/bold style */}
+        {/* Letter S - geometric bold, like the reference image */}
         <path
-          d="M62 22H38L28 32V48H38V36H62V44H38L28 54V68L38 78H62L72 68V52H62V64H38V56H62L72 46V32L62 22Z"
+          d="
+            M 65 20
+            L 35 20
+            L 22 33
+            L 22 48
+            L 35 48
+            L 35 33
+            L 65 33
+            L 65 45
+            L 35 45
+            L 22 58
+            L 22 67
+            L 35 80
+            L 65 80
+            L 78 67
+            L 78 52
+            L 65 52
+            L 65 67
+            L 35 67
+            L 35 58
+            L 65 58
+            L 78 45
+            L 78 33
+            Z
+          "
           fill="white"
         />
       </svg>
 
-      {/* Text */}
       <div>
         <div className={`font-extrabold leading-tight ${textClass} text-gradient`}>
           SHADOW<br />OFICIAL
