@@ -43,6 +43,15 @@ export const ipBlocks = mysqlTable("ipBlocks", {
   blockedAt: timestamp("blockedAt").defaultNow().notNull(),
 });
 
+export const notices = mysqlTable("notices", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  message: text("message").notNull(),
+  type: varchar("type", { length: 20 }).notNull().default("info"), // "info" | "warning" | "danger"
+  active: int("active").notNull().default(1),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 export type Key = typeof keys.$inferSelect;

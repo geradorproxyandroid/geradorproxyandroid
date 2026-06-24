@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Logo } from "@/components/Logo";
 import { toast } from "sonner";
-import { Clock, Zap, Copy, Check, LogOut, CreditCard, Key, TrendingDown, MessageCircle, Bell } from "lucide-react";
+import { Clock, Zap, Copy, Check, LogOut, CreditCard, Key, TrendingDown, MessageCircle, Bell, AlertTriangle, Info, AlertCircle } from "lucide-react";
 
 type Tab = "generator" | "dashboard";
 type Duration = "1" | "7" | "30";
@@ -13,6 +13,35 @@ const DURATION_OPTIONS: { value: Duration; label: string; credits: number }[] = 
   { value: "7", label: "7 Dias", credits: 35 },
   { value: "30", label: "30 Dias", credits: 55 },
 ];
+
+function NoticesBanner() {
+  const { data: activeNotices = [] } = trpc.notices.listActive.useQuery();
+
+  if (activeNotices.length === 0) return null;
+
+  const typeStyles: Record<string, { bg: string; border: string; text: string; icon: React.ReactNode }> = {
+    info: { bg: "bg-blue-50", border: "border-blue-200", text: "text-blue-800", icon: <Info size={16} className="text-blue-600 flex-shrink-0" /> },
+    warning: { bg: "bg-yellow-50", border: "border-yellow-200", text: "text-yellow-800", icon: <AlertTriangle size={16} className="text-yellow-600 flex-shrink-0" /> },
+    danger: { bg: "bg-red-50", border: "border-red-200", text: "text-red-800", icon: <AlertCircle size={16} className="text-red-600 flex-shrink-0" /> },
+  };
+
+  return (
+    <div className="flex flex-col gap-2">
+      {activeNotices.map((n: any) => {
+        const style = typeStyles[n.type] ?? typeStyles.info;
+        return (
+          <div key={n.id} className={`rounded-2xl border p-4 flex items-start gap-3 ${style.bg} ${style.border}`}>
+            {style.icon}
+            <div className="flex-1 min-w-0">
+              <p className={`font-semibold text-sm ${style.text}`}>{n.title}</p>
+              <p className={`text-xs mt-0.5 ${style.text} opacity-80`}>{n.message}</p>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 function UserHeader({ credits, onLogout }: { credits: number; onLogout: () => void }) {
   return (
@@ -87,6 +116,9 @@ function GeneratorTab({ onGenerated }: { onGenerated: () => void }) {
 
   return (
     <div className="p-4 flex flex-col gap-4">
+      {/* Avisos de manutenção */}
+      <NoticesBanner />
+
       {/* Update Channel Button */}
       <a
         href="https://whatsapp.com/channel/0029VbCjOYq1SWstb7YOtG11"

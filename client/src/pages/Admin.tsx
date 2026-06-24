@@ -11,9 +11,9 @@ import {
   Plus,
   Trash2,
   Pencil,
-  Check,
-  X,
-  ChevronDown,
+  Bell,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -25,7 +25,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 
-type Tab = "users" | "keys" | "stats" | "audit";
+type Tab = "users" | "keys" | "stats" | "notices";
 type Duration = "1" | "7" | "30";
 
 const DURATION_LABELS: Record<Duration, string> = {
@@ -59,6 +59,7 @@ function TabBar({ active, onChange }: { active: Tab; onChange: (t: Tab) => void 
     { id: "users", label: "Usuários", icon: <Users size={15} /> },
     { id: "keys", label: "Estoque", icon: <Key size={15} /> },
     { id: "stats", label: "Estatísticas", icon: <BarChart3 size={15} /> },
+    { id: "notices", label: "Avisos", icon: <Bell size={15} /> },
   ];
   return (
     <div className="flex border-b border-gray-100 bg-white px-4">
@@ -336,6 +337,132 @@ function StatsTab() {
   );
 }
 
+function NoticesTab() {
+  const utils = trpc.useUtils();
+  const { data: noticeList = [], isLoading } = trpc.adminNotices.list.useQuery();
+  const [form, setForm] = useState({ title: "", message: "", type: "info" as "info" | "warning" | "danger" });
+
+  const createMutation = trpc.adminNotices.create.useMutation({
+    onSuccess: () => {
+      toast.success("Aviso publicado!");
+      setForm({ title: "", message: "", type: "info" });
+      utils.adminNotices.list.invalidate();
+    },
+    onError: (e) => toast.error(e.message),
+  });
+
+  const deleteMutation = trpc.adminNotices.delete.useMutation({
+    onSuccess: () => { toast.success("Aviso removido."); utils.adminNotices.list.invalidate(); },
+    onError: (e) => toast.error(e.message),
+  });
+
+  const toggleMutation = trpc.adminNotices.toggleActive.useMutation({
+    onSuccess: () => utils.adminNotices.list.invalidate(),
+    onError: (e) => toast.error(e.message),
+  });
+
+  const typeColors = {
+    info: "bg-blue-50 border-blue-200 text-blue-700",
+    warning: "bg-yellow-50 border-yellow-200 text-yellow-700",
+    danger: "bg-red-50 border-red-200 text-red-700",
+  };
+
+  const typeLabels = { info: "ℹ️ Informação", warning: "⚠️ Aviso", danger: "🚨 Urgente" };
+
+  return (
+    <div className="p-4 flex flex-col gap-5">
+      {/* Criar aviso */}
+      <div className="bg-white rounded-2xl p-5 shadow-card border border-gray-100">
+        <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
+          <Bell size={16} className="text-blue-600" />
+          Publicar Aviso
+        </h3>
+        <div className="flex flex-col gap-3">
+          <Input
+            placeholder="Título do aviso"
+            value={form.title}
+            onChange={(e) => setForm({ ...form, title: e.target.value })}
+            className="h-11 rounded-xl bg-gray-50 border-gray-200"
+          />
+          <Textarea
+            placeholder="Mensagem do aviso (ex: Manutenção programada às 22h...)"
+            value={form.message}
+            onChange={(e) => setForm({ ...form, message: e.target.value })}
+            rows={3}
+            className="rounded-xl bg-gray-50 border-gray-200 text-sm resize-none"
+          />
+          {/* Tipo */}
+          <div className="grid grid-cols-3 gap-2">
+            {(["info", "warning", "danger"] as const).map((t) => (
+              <button
+                key={t}
+                onClick={() => setForm({ ...form, type: t })}
+                className={`py-2 rounded-xl text-xs font-semibold border-2 transition-all ${form.type === t ? "border-blue-600 bg-blue-50 text-blue-700" : "border-gray-200 bg-gray-50 text-gray-600"}`}
+              >
+                {typeLabels[t]}
+              </button>
+            ))}
+          </div>
+          <button
+            onClick={() => createMutation.mutate(form)}
+            disabled={createMutation.isPending || !form.title || !form.message}
+            className="btn-gradient h-11 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 disabled:opacity-60"
+          >
+            {createMutation.isPending ? <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" /> : <Plus size={16} />}
+            Publicar Aviso
+          </button>
+        </div>
+      </div>
+
+      {/* Lista de avisos */}
+      <div className="bg-white rounded-2xl shadow-card border border-gray-100 overflow-hidden">
+        <div className="px-5 py-4 border-b border-gray-100">
+          <h3 className="font-semibold text-gray-800">Avisos Publicados</h3>
+          <p className="text-xs text-muted-foreground mt-0.5">{noticeList.length} aviso(s)</p>
+        </div>
+        {isLoading ? (
+          <div className="p-6 text-center text-muted-foreground text-sm">Carregando...</div>
+        ) : noticeList.length === 0 ? (
+          <div className="p-6 text-center text-muted-foreground text-sm">Nenhum aviso publicado.</div>
+        ) : (
+          <div className="divide-y divide-gray-50">
+            {noticeList.map((n: any) => (
+              <div key={n.id} className="px-5 py-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1 min-w-0">
+                    <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-xs font-medium border mb-2 ${typeColors[n.type as keyof typeof typeColors]}`}>
+                      {typeLabels[n.type as keyof typeof typeLabels]}
+                    </div>
+                    <p className={`font-semibold text-sm text-gray-800 ${!n.active ? "opacity-50" : ""}`}>{n.title}</p>
+                    <p className={`text-xs text-gray-500 mt-1 ${!n.active ? "opacity-50" : ""}`}>{n.message}</p>
+                    <p className="text-xs text-muted-foreground mt-1">{new Date(n.createdAt).toLocaleString("pt-BR")}</p>
+                  </div>
+                  <div className="flex items-center gap-1 flex-shrink-0">
+                    <button
+                      onClick={() => toggleMutation.mutate({ id: n.id, active: n.active ? 0 : 1 })}
+                      className={`p-1.5 rounded-lg transition-colors ${n.active ? "hover:bg-gray-100 text-gray-400" : "hover:bg-emerald-50 text-emerald-500"}`}
+                      title={n.active ? "Desativar" : "Ativar"}
+                    >
+                      {n.active ? <EyeOff size={15} /> : <Eye size={15} />}
+                    </button>
+                    <button
+                      onClick={() => deleteMutation.mutate({ id: n.id })}
+                      className="p-1.5 rounded-lg hover:bg-red-50 text-red-400 transition-colors"
+                      title="Excluir"
+                    >
+                      <Trash2 size={15} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function Admin() {
   const [activeTab, setActiveTab] = useState<Tab>("users");
   const [, navigate] = useLocation();
@@ -363,6 +490,7 @@ export default function Admin() {
         {activeTab === "users" && <ManageUsersTab />}
         {activeTab === "keys" && <KeysStockTab />}
         {activeTab === "stats" && <StatsTab />}
+        {activeTab === "notices" && <NoticesTab />}
       </div>
     </div>
   );

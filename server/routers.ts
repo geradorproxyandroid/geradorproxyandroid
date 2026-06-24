@@ -1,8 +1,8 @@
 import { TRPCError } from "@trpc/server";
-import { and, eq, sql } from "drizzle-orm";
+import { and, desc, eq, sql } from "drizzle-orm";
 import * as jose from "jose";
 import { z } from "zod";
-import { keys, users } from "../drizzle/schema";
+import { keys, notices, users } from "../drizzle/schema";
 import { getDb } from "./db";
 import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
@@ -500,6 +500,55 @@ export const appRouter = router({
         console.error('Erro ao listar IPs bloqueados:', error);
         return [];
       }
+    }),
+  }),
+  // ─── notices (avisos) ──────────────────────────────────────────────────────
+
+  adminNotices: router({
+    list: adminProcedure.query(async () => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+      return db.select().from(notices).orderBy(desc(notices.createdAt));
+    }),
+
+    create: adminProcedure
+      .input(z.object({
+        title: z.string().min(1).max(255),
+        message: z.string().min(1),
+        type: z.enum(["info", "warning", "danger"]).default("info"),
+      }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+        await db.insert(notices).values({ title: input.title, message: input.message, type: input.type, active: 1 });
+        return { success: true };
+      }),
+
+    delete: adminProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+        await db.delete(notices).where(eq(notices.id, input.id));
+        return { success: true };
+      }),
+
+    toggleActive: adminProcedure
+      .input(z.object({ id: z.number(), active: z.number() }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+        await db.update(notices).set({ active: input.active }).where(eq(notices.id, input.id));
+        return { success: true };
+      }),
+  }),
+
+  // router público para usuários lerem avisos ativos
+  notices: router({
+    listActive: protectedProcedure.query(async () => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+      return db.select().from(notices).where(eq(notices.active, 1)).orderBy(desc(notices.createdAt));
     }),
   }),
 });
