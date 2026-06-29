@@ -48,7 +48,7 @@ function UserHeader({ credits, onLogout }: { credits: number; onLogout: () => vo
     <div className="bg-white border-b border-pink-100 px-4 py-3 flex items-center justify-between sticky top-0 z-10" style={{ boxShadow: "0 2px 12px rgba(236,72,153,0.08)" }}>
       <div>
         <Logo size="sm" />
-        <p className="text-xs text-purple-600 leading-none mt-1 ml-0.5">Painel do Shadow</p>
+        <p className="text-xs text-muted-foreground leading-none mt-1 ml-0.5">Painel do Shadow</p>
       </div>
       <div className="flex items-center gap-3">
         <div className="text-right">
