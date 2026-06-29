@@ -4,7 +4,7 @@
   const bgStyle = {
     width: iconSize,
     height: iconSize,
-    borderRadius: "14%",
+    borderRadius: "10px",
     background: "linear-gradient(135deg, #7B2FF7 0%, #F107A3 100%)",
     display: "flex" as const,
     alignItems: "center" as const,
@@ -12,8 +12,10 @@
     flexShrink: 0 as const,
     color: "white",
     fontWeight: 900,
-    fontSize: Math.round(iconSize * 0.5),
-    fontFamily: "Inter, sans-serif",
+    fontSize: Math.round(iconSize * 0.62),
+    fontFamily: "'Arial Black', 'Impact', sans-serif",
+    letterSpacing: "-1px",
+    lineHeight: 1,
   };
   return (
     <div className="flex items-center gap-3">
