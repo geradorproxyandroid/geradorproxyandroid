@@ -3,7 +3,7 @@ builder = "NIXPACKS"
 buildCommand = "npm install && npm run build"
 
 [deploy]
-startCommand = "npm run db:push && npm start 2>&1"
+startCommand = "npm run db:push && node dist/index.js 2>&1 || (echo 'CRASH EXIT CODE:' $? && exit 1)"
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 10
 

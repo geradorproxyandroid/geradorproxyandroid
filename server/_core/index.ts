@@ -9,6 +9,16 @@ import { appRouter } from "../routers";
 import { createCustomContext as createContext } from "./customContext";
 import { serveStatic, setupVite } from "./vite";
 
+process.on("uncaughtException", (err) => {
+  console.error("[CRASH] Uncaught exception:", err);
+  process.exit(1);
+});
+
+process.on("unhandledRejection", (reason) => {
+  console.error("[CRASH] Unhandled rejection:", reason);
+  process.exit(1);
+});
+
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
     const server = net.createServer();
