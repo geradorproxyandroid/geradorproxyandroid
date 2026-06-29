@@ -20,7 +20,7 @@ function NoticesBanner() {
   if (activeNotices.length === 0) return null;
 
   const typeStyles: Record<string, { bg: string; border: string; text: string; icon: React.ReactNode }> = {
-    info: { bg: "bg-blue-50", border: "border-blue-200", text: "text-blue-800", icon: <Info size={16} className="text-blue-600 flex-shrink-0" /> },
+    info: { bg: "bg-purple-50", border: "border-purple-200", text: "text-purple-800", icon: <Info size={16} className="text-purple-600 flex-shrink-0" /> },
     warning: { bg: "bg-yellow-50", border: "border-yellow-200", text: "text-yellow-800", icon: <AlertTriangle size={16} className="text-yellow-600 flex-shrink-0" /> },
     danger: { bg: "bg-red-50", border: "border-red-200", text: "text-red-800", icon: <AlertCircle size={16} className="text-red-600 flex-shrink-0" /> },
   };
@@ -45,7 +45,7 @@ function NoticesBanner() {
 
 function UserHeader({ credits, onLogout }: { credits: number; onLogout: () => void }) {
   return (
-    <div className="bg-white border-b border-gray-100 px-4 py-3 flex items-center justify-between sticky top-0 z-10 shadow-sm">
+    <div className="bg-white border-b border-pink-100 px-4 py-3 flex items-center justify-between sticky top-0 z-10" style={{ boxShadow: "0 2px 12px rgba(236,72,153,0.08)" }}>
       <div>
         <Logo size="sm" />
         <p className="text-xs text-muted-foreground leading-none mt-1 ml-0.5">Painel do Shadow</p>
@@ -53,7 +53,7 @@ function UserHeader({ credits, onLogout }: { credits: number; onLogout: () => vo
       <div className="flex items-center gap-3">
         <div className="text-right">
           <p className="text-xs text-muted-foreground leading-none">Créditos Disponíveis</p>
-          <p className="text-2xl font-extrabold text-emerald-500 leading-tight">{credits.toLocaleString()}</p>
+          <p className="text-2xl font-extrabold text-pink-500 leading-tight">{credits.toLocaleString()}</p>
         </div>
         <button
           onClick={onLogout}
@@ -69,7 +69,7 @@ function UserHeader({ credits, onLogout }: { credits: number; onLogout: () => vo
 
 function TabBar({ active, onChange }: { active: Tab; onChange: (t: Tab) => void }) {
   return (
-    <div className="flex border-b border-gray-100 bg-white px-4">
+    <div className="flex border-b border-pink-100 bg-white px-4">
       <button onClick={() => onChange("generator")} className={`tab-underline flex items-center gap-1.5 mr-6 ${active === "generator" ? "active" : ""}`}>
         <Zap size={15} />
         Gerador
@@ -124,8 +124,8 @@ function GeneratorTab({ onGenerated }: { onGenerated: () => void }) {
         href="https://whatsapp.com/channel/0029VbCjOYq1SWstb7YOtG11"
         target="_blank"
         rel="noopener noreferrer"
-        className="w-full h-12 rounded-2xl font-bold text-base flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white transition-colors shadow-lg"
-        style={{ boxShadow: "0 4px 20px rgba(16, 185, 129, 0.3)" }}
+        className="w-full h-12 rounded-2xl font-bold text-base flex items-center justify-center gap-2 bg-pink-500 hover:bg-pink-600 text-white transition-colors shadow-lg"
+        style={{ boxShadow: "0 4px 20px rgba(236, 72, 153, 0.3)" }}
       >
         <Bell size={18} />
         Canal de Atualização
@@ -134,8 +134,8 @@ function GeneratorTab({ onGenerated }: { onGenerated: () => void }) {
       {/* Duration Selection */}
       <div className="bg-white rounded-2xl p-5 shadow-card border border-gray-100">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center">
-            <Clock size={18} className="text-blue-600" />
+          <div className="w-9 h-9 rounded-xl bg-purple-50 flex items-center justify-center">
+            <Clock size={18} className="text-purple-600" />
           </div>
           <div>
             <h3 className="font-semibold text-gray-800 text-base">Duração das Keys</h3>
@@ -150,7 +150,7 @@ function GeneratorTab({ onGenerated }: { onGenerated: () => void }) {
               className={`duration-card text-left ${selectedDuration === opt.value ? "selected" : ""}`}
             >
               <p className="font-bold text-gray-800 text-base">{opt.label}</p>
-              <p className={`text-sm font-semibold mt-0.5 ${selectedDuration === opt.value ? "text-blue-600" : "text-muted-foreground"}`}>
+              <p className={`text-sm font-semibold mt-0.5 ${selectedDuration === opt.value ? "text-purple-600" : "text-muted-foreground"}`}>
                 {opt.credits} créditos
               </p>
             </button>
@@ -161,8 +161,8 @@ function GeneratorTab({ onGenerated }: { onGenerated: () => void }) {
       {/* Quantity */}
       <div className="bg-white rounded-2xl p-5 shadow-card border border-gray-100">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-9 h-9 rounded-xl bg-emerald-50 flex items-center justify-center">
-            <Zap size={18} className="text-emerald-600" />
+          <div className="w-9 h-9 rounded-xl bg-pink-50 flex items-center justify-center">
+            <Zap size={18} className="text-pink-600" />
           </div>
           <div>
             <h3 className="font-semibold text-gray-800 text-base">Quantidade</h3>
@@ -187,7 +187,7 @@ function GeneratorTab({ onGenerated }: { onGenerated: () => void }) {
         onClick={() => generateMutation.mutate({ duration: selectedDuration, quantity })}
         disabled={generateMutation.isPending}
         className="btn-gradient w-full h-14 rounded-2xl font-bold text-base flex items-center justify-center gap-2 disabled:opacity-60 shadow-lg"
-        style={{ boxShadow: "0 4px 20px rgba(37, 99, 235, 0.3)" }}
+        style={{ boxShadow: "0 4px 20px rgba(236, 72, 153, 0.3)" }}
       >
         {generateMutation.isPending ? (
           <><span className="w-5 h-5 border-2 border-white/40 border-t-white rounded-full animate-spin" />Gerando...</>
@@ -218,7 +218,7 @@ function GeneratorTab({ onGenerated }: { onGenerated: () => void }) {
             </div>
             <button
               onClick={copyAll}
-              className={`flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg transition-all ${copiedAll ? "bg-emerald-50 text-emerald-600 border border-emerald-200" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+              className={`flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg transition-all ${copiedAll ? "bg-pink-50 text-pink-600 border border-pink-200" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
             >
               {copiedAll ? <Check size={13} /> : <Copy size={13} />}
               {copiedAll ? "Copiado!" : "Copiar tudo"}
@@ -230,7 +230,7 @@ function GeneratorTab({ onGenerated }: { onGenerated: () => void }) {
                 <span className="text-xs font-mono text-gray-700 truncate flex-1">{key}</span>
                 <button
                   onClick={() => copyKey(key, i)}
-                  className={`ml-3 p-1.5 rounded-lg transition-all flex-shrink-0 ${copiedIndex === i ? "bg-emerald-50 text-emerald-600" : "hover:bg-gray-100 text-gray-400"}`}
+                  className={`ml-3 p-1.5 rounded-lg transition-all flex-shrink-0 ${copiedIndex === i ? "bg-pink-50 text-pink-600" : "hover:bg-gray-100 text-gray-400"}`}
                 >
                   {copiedIndex === i ? <Check size={14} /> : <Copy size={14} />}
                 </button>
@@ -249,15 +249,15 @@ function DashboardTab() {
   if (isLoading) {
     return (
       <div className="p-4 flex flex-col gap-4">
-        {[1, 2, 3].map((i) => <div key={i} className="h-24 bg-gray-100 rounded-2xl animate-pulse" />)}
+        {[1, 2, 3].map((i) => <div key={i} className="h-24 bg-pink-50 rounded-2xl animate-pulse" />)}
       </div>
     );
   }
 
   const cards = [
-    { label: "Créditos Disponíveis", value: (dash?.credits ?? 0).toLocaleString(), icon: <CreditCard size={22} />, color: "text-blue-600", bg: "bg-blue-50", border: "border-blue-100" },
-    { label: "Keys Geradas", value: (dash?.keysGenerated ?? 0).toLocaleString(), icon: <Key size={22} />, color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-100" },
-    { label: "Créditos Gastos", value: (dash?.creditsSpent ?? 0).toLocaleString(), icon: <TrendingDown size={22} />, color: "text-orange-500", bg: "bg-orange-50", border: "border-orange-100" },
+    { label: "Créditos Disponíveis", value: (dash?.credits ?? 0).toLocaleString(), icon: <CreditCard size={22} />, color: "text-pink-600", bg: "bg-pink-50", border: "border-pink-100" },
+    { label: "Keys Geradas", value: (dash?.keysGenerated ?? 0).toLocaleString(), icon: <Key size={22} />, color: "text-pink-500", bg: "bg-pink-50", border: "border-pink-100" },
+    { label: "Créditos Gastos", value: (dash?.creditsSpent ?? 0).toLocaleString(), icon: <TrendingDown size={22} />, color: "text-pink-400", bg: "bg-pink-50", border: "border-pink-100" },
   ];
 
   return (
@@ -287,7 +287,7 @@ export default function UserPanel() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <span className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin" />
+        <span className="w-8 h-8 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin" />
       </div>
     );
   }
@@ -300,7 +300,7 @@ export default function UserPanel() {
   const credits = dashQuery.data?.credits ?? (user as any).credits ?? 0;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background" style={{ background: "linear-gradient(160deg, #fdf2f8 0%, #fce7f3 100%)" }}>
       <UserHeader credits={credits} onLogout={() => logoutMutation.mutate()} />
       <TabBar active={activeTab} onChange={setActiveTab} />
       <div className="pb-8">

@@ -24,7 +24,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-
+ 
 type Tab = "users" | "keys" | "stats" | "notices";
 type Duration = "1" | "7" | "30";
 
@@ -36,11 +36,11 @@ const DURATION_LABELS: Record<Duration, string> = {
 
 function AdminHeader({ onLogout }: { onLogout: () => void }) {
   return (
-    <div className="bg-white border-b border-gray-100 px-4 py-3 flex items-center justify-between sticky top-0 z-10 shadow-sm">
+    <div className="bg-white border-b border-pink-100 px-4 py-3 flex items-center justify-between sticky top-0 z-10 shadow-sm" style={{ boxShadow: "0 2px 12px rgba(236,72,153,0.08)" }}>
       <div className="flex items-center gap-3">
         <Logo size="sm" />
         <div>
-          <p className="text-xs text-muted-foreground leading-none mt-0.5">Painel do Administrador</p>
+          <p className="text-xs text-pink-400 leading-none mt-0.5">Painel do Administrador</p>
         </div>
       </div>
       <button
@@ -62,7 +62,7 @@ function TabBar({ active, onChange }: { active: Tab; onChange: (t: Tab) => void 
     { id: "notices", label: "Avisos", icon: <Bell size={15} /> },
   ];
   return (
-    <div className="flex border-b border-gray-100 bg-white px-4">
+    <div className="flex border-b border-pink-100 bg-white px-4">
       {tabs.map((t) => (
         <button
           key={t.id}
@@ -115,14 +115,14 @@ function ManageUsersTab() {
     <div className="p-4 flex flex-col gap-5">
       <div className="bg-white rounded-2xl p-5 shadow-card border border-gray-100">
         <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
-          <Plus size={16} className="text-blue-600" />
+          <Plus size={16} className="text-pink-600" />
           Criar Usuário
         </h3>
         <div className="flex flex-col gap-3">
-          <Input placeholder="Usuário" value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} className="h-11 rounded-xl bg-gray-50 border-gray-200" />
-          <Input type="password" placeholder="Senha" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} className="h-11 rounded-xl bg-gray-50 border-gray-200" />
-          <Input placeholder="Nome completo" value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} className="h-11 rounded-xl bg-gray-50 border-gray-200" />
-          <Input type="number" placeholder="Créditos iniciais" value={form.credits} min={0} onChange={(e) => setForm({ ...form, credits: parseInt(e.target.value) || 0 })} className="h-11 rounded-xl bg-gray-50 border-gray-200" />
+          <Input placeholder="Usuário" value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} className="h-11 rounded-xl bg-pink-50 border-pink-200 focus:border-pink-400" />
+          <Input type="password" placeholder="Senha" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} className="h-11 rounded-xl bg-pink-50 border-pink-200 focus:border-pink-400" />
+          <Input placeholder="Nome completo" value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} className="h-11 rounded-xl bg-pink-50 border-pink-200 focus:border-pink-400" />
+          <Input type="number" placeholder="Créditos iniciais" value={form.credits} min={0} onChange={(e) => setForm({ ...form, credits: parseInt(e.target.value) || 0 })} className="h-11 rounded-xl bg-pink-50 border-pink-200 focus:border-pink-400" />
           <button onClick={() => createMutation.mutate(form)} disabled={createMutation.isPending} className="btn-gradient h-11 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 disabled:opacity-60">
             {createMutation.isPending ? <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" /> : <Plus size={16} />}
             Criar Usuário
@@ -148,10 +148,10 @@ function ManageUsersTab() {
                   <p className="text-xs text-muted-foreground">@{u.username}</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-100">
+                  <span className="text-sm font-semibold text-pink-600 bg-pink-50 px-2.5 py-1 rounded-lg border border-pink-100">
                     {u.credits} créditos
                   </span>
-                  <button onClick={() => setEditUser({ id: u.id, credits: u.credits })} className="p-1.5 rounded-lg hover:bg-blue-50 text-blue-500 transition-colors" title="Editar créditos">
+                  <button onClick={() => setEditUser({ id: u.id, credits: u.credits })} className="p-1.5 rounded-lg hover:bg-pink-50 text-pink-500 transition-colors" title="Editar créditos">
                     <Pencil size={15} />
                   </button>
                   <button onClick={() => setDeleteUserId(u.id)} className="p-1.5 rounded-lg hover:bg-red-50 text-red-400 transition-colors" title="Excluir usuário">
@@ -221,12 +221,12 @@ function KeysStockTab() {
     <div className="p-4 flex flex-col gap-5">
       <div className="bg-white rounded-2xl p-5 shadow-card border border-gray-100">
         <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
-          <Plus size={16} className="text-blue-600" />
+          <Plus size={16} className="text-pink-600" />
           Adicionar Keys
         </h3>
         <div className="grid grid-cols-4 gap-2 mb-4">
           {(["1", "7", "30"] as Duration[]).map((d) => (
-            <button key={d} onClick={() => setSelectedDuration(d)} className={`py-2 rounded-xl text-xs font-semibold border-2 transition-all ${selectedDuration === d ? "border-blue-600 bg-blue-50 text-blue-700" : "border-gray-200 bg-gray-50 text-gray-600 hover:border-blue-300"}`}>
+            <button key={d} onClick={() => setSelectedDuration(d)} className={`py-2 rounded-xl text-xs font-semibold border-2 transition-all ${selectedDuration === d ? "border-pink-600 bg-pink-50 text-pink-700" : "border-pink-100 bg-white text-gray-600 hover:border-pink-300"}`}>
               {DURATION_LABELS[d]}
             </button>
           ))}
@@ -246,7 +246,7 @@ function KeysStockTab() {
           </div>
           <div className="flex gap-1">
             {(["1", "7", "30"] as Duration[]).map((d) => (
-              <button key={d} onClick={() => setFilterDuration(d)} className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${filterDuration === d ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}>
+              <button key={d} onClick={() => setFilterDuration(d)} className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${filterDuration === d ? "bg-pink-600 text-white" : "bg-pink-50 text-pink-400 hover:bg-pink-100"}`}>
                 {d}d
               </button>
             ))}
@@ -293,7 +293,7 @@ function StatsTab() {
     <div className="p-4 flex flex-col gap-4">
       <div className="bg-white rounded-2xl p-5 shadow-card border border-gray-100">
         <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
-          <BarChart3 size={16} className="text-blue-600" />
+          <BarChart3 size={16} className="text-pink-600" />
           Estatísticas de Keys
         </h3>
         {isLoading ? (
@@ -310,9 +310,9 @@ function StatsTab() {
                     <span className="text-xs text-muted-foreground font-medium bg-white px-2 py-0.5 rounded-lg border border-gray-200">Total: {s.total}</span>
                   </div>
                   <div className="grid grid-cols-2 gap-2">
-                    <div className="bg-emerald-50 border border-emerald-100 rounded-lg p-2.5 text-center">
-                      <p className="text-lg font-bold text-emerald-600">{s.available}</p>
-                      <p className="text-xs text-emerald-500 font-medium">Disponíveis</p>
+                    <div className="bg-pink-50 border border-pink-100 rounded-lg p-2.5 text-center">
+                      <p className="text-lg font-bold text-pink-600">{s.available}</p>
+                      <p className="text-xs text-pink-500 font-medium">Disponíveis</p>
                     </div>
                     <div className="bg-red-50 border border-red-100 rounded-lg p-2.5 text-center">
                       <p className="text-lg font-bold text-red-500">{s.used}</p>
@@ -374,7 +374,7 @@ function NoticesTab() {
       {/* Criar aviso */}
       <div className="bg-white rounded-2xl p-5 shadow-card border border-gray-100">
         <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
-          <Bell size={16} className="text-blue-600" />
+          <Bell size={16} className="text-pink-600" />
           Publicar Aviso
         </h3>
         <div className="flex flex-col gap-3">
@@ -382,14 +382,14 @@ function NoticesTab() {
             placeholder="Título do aviso"
             value={form.title}
             onChange={(e) => setForm({ ...form, title: e.target.value })}
-            className="h-11 rounded-xl bg-gray-50 border-gray-200"
+            className="h-11 rounded-xl bg-pink-50 border-pink-200"
           />
           <Textarea
             placeholder="Mensagem do aviso (ex: Manutenção programada às 22h...)"
             value={form.message}
             onChange={(e) => setForm({ ...form, message: e.target.value })}
             rows={3}
-            className="rounded-xl bg-gray-50 border-gray-200 text-sm resize-none"
+            className="rounded-xl bg-pink-50 border-pink-200 text-sm resize-none"
           />
           {/* Tipo */}
           <div className="grid grid-cols-3 gap-2">
@@ -397,7 +397,7 @@ function NoticesTab() {
               <button
                 key={t}
                 onClick={() => setForm({ ...form, type: t })}
-                className={`py-2 rounded-xl text-xs font-semibold border-2 transition-all ${form.type === t ? "border-blue-600 bg-blue-50 text-blue-700" : "border-gray-200 bg-gray-50 text-gray-600"}`}
+                className={`py-2 rounded-xl text-xs font-semibold border-2 transition-all ${form.type === t ? "border-pink-600 bg-pink-50 text-pink-700" : "border-pink-100 bg-white text-gray-600"}`}
               >
                 {typeLabels[t]}
               </button>
@@ -440,7 +440,7 @@ function NoticesTab() {
                   <div className="flex items-center gap-1 flex-shrink-0">
                     <button
                       onClick={() => toggleMutation.mutate({ id: n.id, active: n.active ? 0 : 1 })}
-                      className={`p-1.5 rounded-lg transition-colors ${n.active ? "hover:bg-gray-100 text-gray-400" : "hover:bg-emerald-50 text-emerald-500"}`}
+                      className={`p-1.5 rounded-lg transition-colors ${n.active ? "hover:bg-gray-100 text-gray-400" : "hover:bg-pink-50 text-pink-500"}`}
                       title={n.active ? "Desativar" : "Ativar"}
                     >
                       {n.active ? <EyeOff size={15} /> : <Eye size={15} />}
@@ -472,7 +472,7 @@ export default function Admin() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <span className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin" />
+        <span className="w-8 h-8 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin" />
       </div>
     );
   }
@@ -483,7 +483,7 @@ export default function Admin() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background" style={{ background: "linear-gradient(160deg, #fdf2f8 0%, #fce7f3 100%)" }}>
       <AdminHeader onLogout={() => logoutMutation.mutate()} />
       <TabBar active={activeTab} onChange={setActiveTab} />
       <div className="pb-8">
