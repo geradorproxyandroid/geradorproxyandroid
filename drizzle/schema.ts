@@ -52,6 +52,16 @@ export const notices = mysqlTable("notices", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
+export const loginAudit = mysqlTable("loginAudit", {
+  id: serial("id").primaryKey(),
+  userId: int("userId"),
+  username: varchar("username", { length: 64 }),
+  ipAddress: varchar("ipAddress", { length: 45 }),
+  userAgent: varchar("userAgent", { length: 500 }),
+  loginTime: timestamp("loginTime").defaultNow().notNull(),
+  status: varchar("status", { length: 20 }).notNull().default("success"),
+});
+
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 export type Key = typeof keys.$inferSelect;
