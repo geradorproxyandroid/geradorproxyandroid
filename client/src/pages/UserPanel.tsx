@@ -125,7 +125,7 @@ function GeneratorTab({ onGenerated }: { onGenerated: () => void }) {
         target="_blank"
         rel="noopener noreferrer"
         className="w-full h-12 rounded-2xl font-bold text-base flex items-center justify-center gap-2 bg-pink-500 hover:bg-pink-600 text-white transition-colors shadow-lg"
-        style={{ boxShadow: "0 4px 20px rgba(236, 72, 153, 0.3)" }}
+        style={{ boxShadow: "0 4px 20px rgba(123, 47, 247, 0.3)", background: "linear-gradient(135deg, #7B2FF7 0%, #F107A3 100%)" }}
       >
         <Bell size={18} />
         Canal de Atualização

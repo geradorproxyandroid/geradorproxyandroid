@@ -5,7 +5,7 @@
     width: iconSize,
     height: iconSize,
     borderRadius: "14%",
-    background: "linear-gradient(135deg, #db2777 0%, #f472b6 100%)",
+    background: "linear-gradient(135deg, #7B2FF7 0%, #F107A3 100%)",
     display: "flex" as const,
     alignItems: "center" as const,
     justifyContent: "center" as const,
