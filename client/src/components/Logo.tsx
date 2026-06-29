@@ -4,7 +4,7 @@
   const bgStyle = {
     width: iconSize,
     height: iconSize,
-    borderRadius: "10px",
+    borderRadius: "0px",
     background: "linear-gradient(135deg, #7B2FF7 0%, #F107A3 100%)",
     display: "flex" as const,
     alignItems: "center" as const,
